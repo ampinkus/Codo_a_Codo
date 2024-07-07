@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registrarse</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="../styles/registrarse.css" />
+</head>
+
+<body style="background-color: black !important">
+  <div class="container-fluid p-0">
+    <div class="row g-0">
+      <div class="col-md-12" style="margin-bottom: 0">
+        <div class="position-relative">
+          <img src="../imgs/VHS.jpg" class="img-fluid" alt="Banner" style="filter: brightness(40%)" />
+
+          <div class="position-absolute top-0 start-50 translate-middle-x mt-5">
+            <div class="registrarse-forma">
+              <div class="texto-registro">Registro</div>
+
+              <form class="needs-validation" id="registroForm" novalidate>
+                <div class="mb-4">
+                  <div class="input-group has-validation">
+                    <input type="text" class="form-control" id="registroNombre" name="nombre" placeholder="Nombre"
+                      required>
+                    <div class="valid-feedback">Perfecto!</div>
+                    <div class="invalid-feedback">El nombre no puede estar vacío.</div>
+                  </div>
+                </div>
+                <div class="mb-4">
+                  <input type="text" class="form-control" id="registroApellido" name="apellido" placeholder="Apellido"
+                    required>
+                  <div class="valid-feedback">Perfecto!</div>
+                  <div class="invalid-feedback">El apellido no puede estar vacío.</div>
+                </div>
+                <div class="mb-4">
+                  <input type="email" class="form-control" id="registroEmail" name="email" placeholder="Email" required>
+                  <div class="valid-feedback">Perfecto!</div>
+                  <div class="invalid-feedback">Ingresa un correo electrónico válido.</div>
+                </div>
+                <div class="mb-4">
+                  <input type="password" class="form-control" id="registroContraseña" name="contrasena"
+                    placeholder="Contraseña" required>
+                  <div class="valid-feedback">Perfecto!</div>
+                  <div class="invalid-feedback">La contraseña debe tener al menos 8 caracteres.</div>
+                </div>
+                <div class="mb-4">
+                  <input type="date" class="form-control" id="registroFecha" name="fecha" placeholder="Fecha nacimiento"
+                    required>
+                  <div class="valid-feedback">Perfecto!</div>
+                  <div class="invalid-feedback">Debes elegir una fecha.</div>
+                </div>
+                <select class="form-select mb-3" id="registroPais" name="pais" required>
+                  <option value="">País</option>
+                  <option value="argentina">Argentina</option>
+                  <option value="bolivia">Bolivia</option>
+                  <option value="brasil">Brasil</option>
+                  <option value="chile">Chile</option>
+                </select>
+                <div class="invalid-feedback">Debes elegir un país.</div>
+
+                <div class="mb-4 form-check">
+                  <input type="checkbox" class="form-check-input" id="terminosCheck" required>
+                  <label class="form-check-label" for="terminosCheck" style="color: white">Acepto términos y
+                    condiciones</label>
+                  <div class="invalid-feedback">Debes aceptar los términos y condiciones.</div>
+                </div>
+                <button type="submit" class="btn btn-danger btn-registrate mb-3">Registrarse</button>
+                <br>
+                <div>
+                  <a class="texto-ayuda" href="#">Necesitas ayuda?</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="successModalLabel">Registro Exitoso</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">Usuario registrado exitosamente.</div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('success')) {
+        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+        successModal.show();
+      }
+
+      const form = document.getElementById('registroForm');
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (form.checkValidity() === false) {
+          event.stopPropagation();
+        } else {
+          const data = {
+            nombreUsuario: document.getElementById('registroNombre').value,
+            apeUsuario: document.getElementById('registroApellido').value,
+            mailUsuario: document.getElementById('registroEmail').value,
+            pwdUsuario: document.getElementById('registroContraseña').value,
+            fnacUsuario: document.getElementById('registroFecha').value,
+            paisUsuario: document.getElementById('registroPais').value
+          };
+
+          fetch('http://localhost:8080/webapp-1.0.0-SNAPSHOT/CrearUsuarioController', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          })
+            .then(response => {
+              if (response.ok) {
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+              } else {
+                alert('Error al registrar el usuario. Inténtalo de nuevo.');
+              }
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              alert('Error al registrar el usuario. Inténtalo de nuevo.');
+            });
+        }
+        form.classList.add('was-validated');
+      });
+    });
+  </script>
+</body>
+
+</html>
