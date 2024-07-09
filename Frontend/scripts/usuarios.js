@@ -25,7 +25,6 @@ async function crearUsuario() {
     // puedo usar formdata o mandar los datos en formato JSON
     // el profe prefiere json
     const json = JSON.stringify(jsonRequest);
-    console.log(json);
     
     fetch('http://localhost:8080/webapp-1.0.0-SNAPSHOT/CrearUsuarioController', {
         method: 'POST',
@@ -68,13 +67,14 @@ async function editarUsuario(id) {
     var txtNombre = "txtNombreUsuario-" + id;
     var txtApe = "txtApeUsuario-" + id;
     var txtMail = "txtMailUsuario-" + id;
-    //var txtPwd = "pwdPassword-" + id;
-    var txtPais = "txtPaisUsuario-" + id;
+    var txtPwd = "txtPwdUsuario-" + id;
+    var txtPais = "selPaisUsuario-" + id;
+    var dtFnac = "dtFnacUsuario-" + id;
     var nombre = document.getElementById(txtNombre).value;
     var ape = document.getElementById(txtApe).value;
     var mail = document.getElementById(txtMail).value;
-    //var pwd = document.getElementById(txtPwd).value;
-    //var fnacUsuario = document.getElementById('dtFnac').value;
+    var pwd = document.getElementById(txtPwd).value;
+    var fnacUsuario = document.getElementById(dtFnac).value;
     var pais = document.getElementById(txtPais).value;    
 
     alert("Actualización de usuario con ID=" + id + " en proceso...");
@@ -84,11 +84,11 @@ async function editarUsuario(id) {
         nombreUsuario: nombre,
         apeUsuario: ape,
         mailUsuario: mail,
-        pwdUsuario: "PruebaDesa",
-        //fnacUsuario: fnacUsuario,
+        pwdUsuario: pwd,
+        fnacUsuario: fnacUsuario,
         paisUsuario: pais
     };
-    console.log(usuario);
+    
     try {
         const response = await fetch('http://localhost:8080/webapp-1.0.0-SNAPSHOT/EditarUsuarioController', {
             method: 'PUT',
@@ -136,9 +136,9 @@ function dibujarDatos(json) {
         html += ('<td><input type="text" id=txtNombreUsuario-' + f[1]["idUsuario"] + ' value="' + f[1]["nombreUsuario"] + '"></td>');
         html += ('<td><input type="text" id=txtApeUsuario-' + f[1]["idUsuario"] + ' value="' + f[1]["apeUsuario"] + '"></td>');
         html += ('<td><input type="text" id=txtMailUsuario-' + f[1]["idUsuario"] + ' value="' + f[1]["mailUsuario"] + '"></td>');
-        html += ('<td><input type="password" id=pwdUsuario-' + f[1]["pwdUsuario"] + '" value="' + f[1]["pwdUsuario"] + '"></td>');
-        html += ('<td><input type="date" id=txtFnacUsuario-' + f[1]["idUsuario"] + ' value="' + fechaFormateada + '"></td>');
-        html += ('<td>' + dibujarSelectPaises('txtPaisUsuario-' + f[1]["idUsuario"], f[1]["paisUsuario"])+ '</td>');
+        html += ('<td><input type="text" id=txtPwdUsuario-' + f[1]["idUsuario"] + ' value="' + f[1]["pwdUsuario"] + '"></td>');
+        html += ('<td><input type="date" id=dtFnacUsuario-' + f[1]["idUsuario"] + ' value="' + fechaFormateada + '"></td>');
+        html += ('<td>' + dibujarSelectPaises('selPaisUsuario-' + f[1]["idUsuario"], f[1]["paisUsuario"])+ '</td>');
         html += ('<td><a href="#" onclick="editarUsuario(' + f[1]["idUsuario"] + ')">Editar</a></td><td><a href="#" onclick="eliminarUsuario(' + f[1]["idUsuario"] + ')">Eliminar</a></td>');
         html +=('</tr>');
     }
@@ -147,4 +147,6 @@ function dibujarDatos(json) {
 }
 
 // Cuando carga la página me trae todos los datos
-llamarAPI();
+document.addEventListener('DOMContentLoaded', (event) => {
+    llamarAPI();
+});
