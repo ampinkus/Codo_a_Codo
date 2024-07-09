@@ -29,7 +29,7 @@ public class CrearUsuarioController extends HttpServlet{
         }
 
         String jsonRecibido = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-        System.out.println(jsonRecibido);
+        //System.out.println(jsonRecibido);
 
         // Si se pudo crear, el backend devuelve el código HTTP 201
         // Ver códigos de estado HTTP en Mozilla para mas detalles
