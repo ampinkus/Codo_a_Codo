@@ -25,7 +25,7 @@ public class EditarUsuarioController extends HttpServlet{
         UsuariosService us = new UsuariosService();
         
         String jsonRecibido = req.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
-        System.out.println(jsonRecibido);
+        //System.out.println("JSON que manda el front " + jsonRecibido);
         
         ObjectMapper om = new ObjectMapper();
 

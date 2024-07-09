@@ -67,8 +67,8 @@ public class UsuariosDAOMySQLImpl implements UsuariosDAO {
         Connection cnx = null;
         // Consulta SQL parametrizada
         String sql = "INSERT INTO usuarios (nombre, apellido, email, contraseña"
-            + ", pais) VALUES (?, ?, ?, ?, ?)";
-
+            + ", fecha_nac, pais) VALUES (?, ?, ?, ?, ?, ?)";
+        
         try {
             cnx = AdministradorDeConexiones.abrirConexion();
             PreparedStatement preparedStatement = cnx.prepareStatement(sql);
@@ -77,8 +77,8 @@ public class UsuariosDAOMySQLImpl implements UsuariosDAO {
             preparedStatement.setString(2, u.getApeUsuario());
             preparedStatement.setString(3, u.getMailUsuario());
             preparedStatement.setString(4, u.getPwdUsuario());
-            //preparedStatement.setDate(5, u.getFnacUsuario());
-            preparedStatement.setString(5, u.getPaisUsuario());
+            preparedStatement.setDate(5, u.getFnacUsuario());
+            preparedStatement.setString(6, u.getPaisUsuario());
 
             // Ejecutar la inserción
             if(preparedStatement.executeUpdate() > 0) {
@@ -98,8 +98,8 @@ public class UsuariosDAOMySQLImpl implements UsuariosDAO {
         Connection cnx = null;
         // Consulta SQL parametrizada
         String sql = "UPDATE usuarios SET nombre = ?, apellido = ?, email = ?, contraseña = ?"
-            + ", pais = ? WHERE id_usuario = ?";
-
+            + ", fecha_nac = ?, pais = ? WHERE id_usuario = ?";
+        
         try {
             cnx = AdministradorDeConexiones.abrirConexion();
             PreparedStatement preparedStatement = cnx.prepareStatement(sql);
@@ -108,9 +108,9 @@ public class UsuariosDAOMySQLImpl implements UsuariosDAO {
             preparedStatement.setString(2, u.getApeUsuario());
             preparedStatement.setString(3, u.getMailUsuario());
             preparedStatement.setString(4, u.getPwdUsuario());
-            //preparedStatement.setDate(5, u.getFnacUsuario());
-            preparedStatement.setString(5, u.getPaisUsuario());
-            preparedStatement.setLong(6, u.getIdUsuario());
+            preparedStatement.setDate(5, u.getFnacUsuario());
+            preparedStatement.setString(6, u.getPaisUsuario());
+            preparedStatement.setLong(7, u.getIdUsuario());
 
             // Ejecutar la actualización
             if(preparedStatement.executeUpdate() > 0) {
